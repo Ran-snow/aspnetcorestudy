@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -24,13 +25,11 @@ namespace Cookie
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAuthentication("MyCookieAuthenticationScheme")
-                .AddCookie("MyCookieAuthenticationScheme", options =>
-                {
-                    options.AccessDeniedPath = "/Home/Index/";
-                    options.LoginPath = "/Account/Unauthorized/";
-                });
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie();
 
+            //services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            //services.AddHttpContextAccessor();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
@@ -51,6 +50,8 @@ namespace Cookie
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            //********
             app.UseAuthentication();
 
             app.UseMvc(routes =>
