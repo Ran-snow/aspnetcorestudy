@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cookie", "Cookie\Cookie.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CookieOfficial", "CookieOfficial\CookieOfficial.csproj", "{0CBAA7E4-DE50-4A72-A5AA-06E01E710965}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CookieOfficial21", "CookieOfficial21\CookieOfficial21.csproj", "{63F26FE8-46F6-4725-A12B-2D834AE4221B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CookieOfficial21", "CookieOfficial21\CookieOfficial21.csproj", "{63F26FE8-46F6-4725-A12B-2D834AE4221B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPI", "WebAPI\WebAPI.csproj", "{F8B272C3-8B22-4C4D-9B9D-F73701326E00}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{63F26FE8-46F6-4725-A12B-2D834AE4221B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63F26FE8-46F6-4725-A12B-2D834AE4221B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63F26FE8-46F6-4725-A12B-2D834AE4221B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8B272C3-8B22-4C4D-9B9D-F73701326E00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8B272C3-8B22-4C4D-9B9D-F73701326E00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8B272C3-8B22-4C4D-9B9D-F73701326E00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8B272C3-8B22-4C4D-9B9D-F73701326E00}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
