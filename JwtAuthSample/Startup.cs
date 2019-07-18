@@ -31,20 +31,23 @@ namespace JwtAuthSample
             services.Configure<JwtSettings>(Configuration.GetSection("JwtSettings"));
 
             var jwtSettings = new JwtSettings();
-            Configuration.Bind("JwtSettings",jwtSettings);
+            Configuration.Bind("JwtSettings", jwtSettings);
 
-            services.AddAuthentication(AuthenticationOptions=>{
+            services.AddAuthentication(AuthenticationOptions =>
+            {
                 AuthenticationOptions.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 AuthenticationOptions.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-            .AddJwtBearer(jwtBearerOptions=>{
-                jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters(){
+            .AddJwtBearer(jwtBearerOptions =>
+            {
+                jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters()
+                {
                     ValidIssuer = jwtSettings.Issuer,
                     ValidAudience = jwtSettings.Audience,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecretKey))
                 };
             });
-            
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
