@@ -18,7 +18,7 @@ namespace IdentityServer
                 new IdentityResources.Profile(),
                 new IdentityResources.Email(),
                 new IdentityResources.Address(),
-                new IdentityResources.Phone()
+                new IdentityResources.Phone(){ Required = true },
             };
         }
 
@@ -58,6 +58,8 @@ namespace IdentityServer
                     RedirectUris = { "http://localhost:5001/signin-oidc" },
                     FrontChannelLogoutUri = "http://localhost:5001/signout-oidc",
                     PostLogoutRedirectUris = { "http://localhost:5001/signout-callback-oidc" },
+
+                    RequireConsent = true,
 
                     AllowOfflineAccess = true,
                     AllowedScopes = { "openid", "profile", "api1" }
