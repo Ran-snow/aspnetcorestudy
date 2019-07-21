@@ -14,12 +14,12 @@ using MVC.Client.Code.Models;
 
 namespace MVC.Client.Code.Controllers
 {
-    [Authorize]
     public class HomeController : Controller
     {
         public async Task<IActionResult> Index()
         {
             var client = new HttpClient();
+            string content = string.Empty;
 
             // call api
             client.SetBearerToken(await HttpContext.GetTokenAsync(OpenIdConnectParameterNames.AccessToken));
@@ -27,13 +27,14 @@ namespace MVC.Client.Code.Controllers
             var response = await client.GetAsync("http://localhost:5001/api/values");
             if (!response.IsSuccessStatusCode)
             {
-                throw new Exception(response.ReasonPhrase);
+                content = response.ReasonPhrase;
+            }
+            else
+            {
+                content = await response.Content.ReadAsStringAsync();
             }
 
-            var content = await response.Content.ReadAsStringAsync();
-
-            ViewData["apires"] = content;
-            return View();
+            return View("index", content);
         }
 
         public IActionResult Privacy()
@@ -47,6 +48,7 @@ namespace MVC.Client.Code.Controllers
             await HttpContext.SignOutAsync(OpenIdConnectDefaults.AuthenticationScheme);
         }
 
+        [Authorize]
         public async Task<IActionResult> GetClaim()
         {
             var accesstoken = await HttpContext.GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
@@ -54,7 +56,7 @@ namespace MVC.Client.Code.Controllers
             var refreshToken = await HttpContext.GetTokenAsync(OpenIdConnectParameterNames.RefreshToken);
             var code = await HttpContext.GetTokenAsync(OpenIdConnectParameterNames.Code);
 
-            ViewData["accesstoken"]= accesstoken;
+            ViewData["accesstoken"] = accesstoken;
             ViewData["idToken"] = idToken;
             ViewData["refreshToken"] = refreshToken;
 
