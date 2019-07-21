@@ -78,6 +78,7 @@ namespace IdentityServer
 
                     AllowOfflineAccess = true,
                     AlwaysIncludeUserClaimsInIdToken = true,
+                    AccessTokenLifetime = 60,
 
                     AllowedScopes = {
                         IdentityServerConstants.StandardScopes.OpenId,

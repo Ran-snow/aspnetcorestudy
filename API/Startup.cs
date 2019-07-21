@@ -35,6 +35,10 @@ namespace API
                     options.RequireHttpsMetadata = false;
 
                     options.Audience = "api1";
+
+                    //Token 有效期
+                    options.TokenValidationParameters.ClockSkew = TimeSpan.FromMinutes(1);
+                    options.TokenValidationParameters.RequireExpirationTime = true;
                 });
         }
 

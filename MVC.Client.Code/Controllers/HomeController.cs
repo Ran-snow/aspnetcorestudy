@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using IdentityModel.Client;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -27,6 +30,12 @@ namespace MVC.Client.Code.Controllers
             var response = await client.GetAsync("http://localhost:5001/api/values");
             if (!response.IsSuccessStatusCode)
             {
+                if (response.StatusCode == HttpStatusCode.Unauthorized)
+                {
+                    await RenewTokensAsync();
+                    return RedirectToAction();
+                }
+
                 content = response.ReasonPhrase;
             }
             else
@@ -46,6 +55,70 @@ namespace MVC.Client.Code.Controllers
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             await HttpContext.SignOutAsync(OpenIdConnectDefaults.AuthenticationScheme);
+        }
+
+        private async Task<string> RenewTokensAsync()
+        {
+            var client = new HttpClient();
+            var disco = await client.GetDiscoveryDocumentAsync("http://localhost:5000");
+            if (disco.IsError)
+            {
+                throw new Exception(disco.Error);
+            }
+
+            var tokenResponse = await client.RequestRefreshTokenAsync(new RefreshTokenRequest
+            {
+                Address = disco.TokenEndpoint,
+                RefreshToken = await HttpContext.GetTokenAsync(OpenIdConnectParameterNames.RefreshToken),
+                ClientId = "mvc_code",
+                ClientSecret = "49C1A7E1-0C79-4A89-A3D6-A37998FB86B0",
+                Scope = "api1",
+                GrantType = OpenIdConnectGrantTypes.RefreshToken
+            });
+
+            if (tokenResponse.IsError)
+            {
+                throw new Exception(tokenResponse.Error);
+            }
+
+            var expiresAt = DateTime.UtcNow + TimeSpan.FromSeconds(tokenResponse.ExpiresIn);
+
+            var tokens = new[]
+{
+                new AuthenticationToken
+                {
+                    Name = OpenIdConnectParameterNames.IdToken,
+                    Value = tokenResponse.IdentityToken
+                },
+                new AuthenticationToken
+                {
+                    Name = OpenIdConnectParameterNames.AccessToken,
+                    Value = tokenResponse.AccessToken
+                },
+                new AuthenticationToken
+                {
+                    Name = OpenIdConnectParameterNames.RefreshToken,
+                    Value = tokenResponse.RefreshToken
+                },
+                new AuthenticationToken
+                {
+                    Name = "expires_at",
+                    Value = expiresAt.ToString("o", CultureInfo.InvariantCulture)
+                }
+            };
+
+            // 获取身份认证的结果，包含当前的pricipal和properties
+            var currentAuthenticateResult =
+                await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            // 把新的tokens存起来
+            currentAuthenticateResult.Properties.StoreTokens(tokens);
+
+            // 登录
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                currentAuthenticateResult.Principal, currentAuthenticateResult.Properties);
+
+            return tokenResponse.AccessToken;
         }
 
         [Authorize]
