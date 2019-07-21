@@ -14,6 +14,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication;
 using IdentityModel;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using IdentityModel.AspNetCore;
 
 namespace MVC.Client.Code
 {
@@ -50,6 +51,7 @@ namespace MVC.Client.Code
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
                 options.Cookie.Name = "mvccode";
             })
+            .AddAutomaticTokenManagement()
             .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
             {
                 options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;

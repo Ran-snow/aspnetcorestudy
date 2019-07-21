@@ -30,11 +30,11 @@ namespace MVC.Client.Code.Controllers
             var response = await client.GetAsync("http://localhost:5001/api/values");
             if (!response.IsSuccessStatusCode)
             {
-                if (response.StatusCode == HttpStatusCode.Unauthorized)
-                {
-                    await RenewTokensAsync();
-                    return RedirectToAction();
-                }
+                //if (response.StatusCode == HttpStatusCode.Unauthorized)
+                //{
+                //    await RenewTokensAsync();
+                //    return RedirectToAction();
+                //}
 
                 content = response.ReasonPhrase;
             }
