@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using IdentityModel;
 using IdentityServer4;
 using IdentityServer4.Models;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ namespace IdentityServer
                 new IdentityResources.Email(),
                 new IdentityResources.Address(),
                 new IdentityResources.Phone(){ Required = true },
+                new IdentityResource("Roles","角色",new string []{JwtClaimTypes.Role })
             };
         }
 
@@ -49,20 +51,31 @@ namespace IdentityServer
                 // MVC client using hybrid flow
                 new Client
                 {
-                    ClientId = "mvc",
-                    ClientName = "MVC Client",
+                    ClientId = "mvc.hybrid",
+                    ClientName = "MVC Client Hybrid",
 
                     AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
                     ClientSecrets = { new Secret("49C1A7E1-0C79-4A89-A3D6-A37998FB86B0".Sha256()) },
 
-                    RedirectUris = { "http://localhost:5001/signin-oidc" },
-                    FrontChannelLogoutUri = "http://localhost:5001/signout-oidc",
-                    PostLogoutRedirectUris = { "http://localhost:5001/signout-callback-oidc" },
+                    RedirectUris = { "http://localhost:5003/signin-oidc" },
+                    FrontChannelLogoutUri = "http://localhost:5003/signout-oidc",
+                    PostLogoutRedirectUris = { "http://localhost:5003/signout-callback-oidc" },
 
                     RequireConsent = true,
 
+                    AlwaysIncludeUserClaimsInIdToken = true,
+
                     AllowOfflineAccess = true,
-                    AllowedScopes = { "openid", "profile", "api1" }
+                    AllowedScopes = {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.Address,
+                        IdentityServerConstants.StandardScopes.Email,
+                        IdentityServerConstants.StandardScopes.Phone,
+                        IdentityServerConstants.StandardScopes.OfflineAccess,
+                        "api1",
+                        "Roles"
+                    }
                 },
 
                 // MVC client using authorization code
@@ -88,8 +101,7 @@ namespace IdentityServer
                         IdentityServerConstants.StandardScopes.Address,
                         IdentityServerConstants.StandardScopes.Email,
                         IdentityServerConstants.StandardScopes.Phone,
-                        IdentityServerConstants.StandardScopes.OfflineAccess,
-                        "api1"
+                        IdentityServerConstants.StandardScopes.OfflineAccess
                     }
                 },
 

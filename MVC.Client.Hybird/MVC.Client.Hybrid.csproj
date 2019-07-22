@@ -3,20 +3,15 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <AssemblyName>MVC.Client.Hybird</AssemblyName>
+    <RootNamespace>MVC.Client.Hybird</RootNamespace>
   </PropertyGroup>
 
 
   <ItemGroup>
+    <PackageReference Include="IdentityModel" Version="3.10.10" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
-  </ItemGroup>
-
-
-  <ItemGroup>
-    <Reference Include="IdentityModel">
-      <HintPath>D:\Program Files\NuGetPackages\identitymodel\3.10.10\lib\netstandard2.0\IdentityModel.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>
