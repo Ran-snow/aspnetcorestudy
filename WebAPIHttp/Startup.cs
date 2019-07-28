@@ -25,6 +25,20 @@ namespace WebAPIHttp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("any", policyBuilder =>
+                {
+                    policyBuilder.AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials();//指定处理cookie
+
+                    var cfg = Configuration.GetSection("AllowedHosts").Get<List<string>>();
+                    if (cfg == null || cfg.Contains("*")) policyBuilder.AllowAnyOrigin(); //允许任何来源的主机访问
+                    else policyBuilder.WithOrigins(cfg.ToArray()); //允许类似http://localhost:8080等主机访问
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -34,6 +48,8 @@ namespace WebAPIHttp
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors("any");
 
             app.UseMvc();
         }
