@@ -32,6 +32,7 @@ namespace WebAPIHttp
                 {
                     policyBuilder.AllowAnyMethod()
                         .AllowAnyHeader()
+                        //.WithMethods("GET", "HEAD", "POST", "PUT", "PATCH", "DELETE", "OPTIONS", "DEBUG");
                         .AllowCredentials();//指定处理cookie
 
                     var cfg = Configuration.GetSection("AllowedHosts").Get<List<string>>();
