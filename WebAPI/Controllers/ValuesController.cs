@@ -8,7 +8,7 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [Route("api/[controller]/[action]")]
-    [ApiController]
+    //[ApiController]
     public class ValuesController : ControllerBase
     {
         // GET api/values
@@ -27,8 +27,9 @@ namespace WebAPI.Controllers
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post([FromForm] string value)
         {
+            var http = HttpContext.Request.Headers;
         }
 
         // PUT api/values/5

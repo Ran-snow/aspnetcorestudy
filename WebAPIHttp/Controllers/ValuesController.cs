@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -10,14 +14,21 @@ namespace WebAPIHttp.Controllers
 {
     [Route("api/[controller]")]
     [Route("api/[controller]/[action]")]
-    [ApiController]
+    //[ApiController]
     public class ValuesController : ControllerBase
     {
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public object Get()
         {
-            return new string[] { "value1", "value2" };
+            return HttpContext.Request.Headers;
+        }
+
+        [HttpPost]
+        [Authorize]
+        public object Post666([FromForm] string v1)
+        {
+            return v1;
         }
 
         // GET api/values/5
@@ -29,8 +40,19 @@ namespace WebAPIHttp.Controllers
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody] string value)
+        public object Post()
         {
+            var claims = new[] { new Claim("userId", "2") };
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var authProperties = new AuthenticationProperties
+            {
+                AllowRefresh = true,
+                ExpiresUtc = DateTimeOffset.UtcNow.AddHours(24),
+            };
+
+            HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
+
+            return HttpContext.Request.Headers;
         }
 
         // PUT api/values/5
@@ -49,7 +71,7 @@ namespace WebAPIHttp.Controllers
         /// 接收报文测试
         /// </summary>
         /// <returns></returns>
-        [HttpPost]
+        //[HttpPost]
         public object GetJson([FromBody]JObject value)
         //public object GetJson([FromBody]dynamic value)
         //public object GetJson(user value)
