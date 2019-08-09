@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
+using IdentityServer.Store;
 
 namespace IdentityServer
 {
@@ -47,6 +48,13 @@ namespace IdentityServer
             builder.AddInMemoryIdentityResources(Config.GetIdentityResources());
             builder.AddInMemoryApiResources(Config.GetApis());
             builder.AddInMemoryClients(Config.GetClients());
+
+            // DB
+            //builder.AddClientStore<ClientStore>();
+            //builder.AddClientStoreCache<ClientStore>();
+            //builder.AddPersistedGrantStore<PersistedGrantStore>();
+            //builder.AddResourceStore<ResourceStore>();
+            //builder.AddResourceStoreCache<ResourceStoreCache>();
 
             // in-memory, json config
             //builder.AddInMemoryIdentityResources(Configuration.GetSection("IdentityResources"));
