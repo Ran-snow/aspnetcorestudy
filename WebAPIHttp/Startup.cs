@@ -43,7 +43,10 @@ namespace WebAPIHttp
             });
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie();
+                .AddCookie(configureOptions =>
+                {
+                    configureOptions.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.None;
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
