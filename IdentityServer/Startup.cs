@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using IdentityServer.Store;
+using IdentityServer4.Validation;
 
 namespace IdentityServer
 {
@@ -44,7 +45,9 @@ namespace IdentityServer
                 options.Caching.ResourceStoreExpiration = new TimeSpan(1, 1, 1);
             });
 
-            builder.AddTestUsers(TestUsers.Users);
+            //builder.Services.AddTransient<IResourceOwnerPasswordValidator, ResourceOwnerPasswordValidator>();
+            //builder.AddProfileService<ProfileService>();
+            //builder.AddTestUsers(TestUsers.Users);
 
             // in-memory, code config
             //builder.AddInMemoryIdentityResources(Config.GetIdentityResources());

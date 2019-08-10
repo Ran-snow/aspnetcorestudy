@@ -14,7 +14,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace IdentityServer4.Quickstart.UI
@@ -28,22 +30,39 @@ namespace IdentityServer4.Quickstart.UI
     [AllowAnonymous]
     public class AccountController : Controller
     {
-        private readonly TestUserStore _users;
         private readonly IIdentityServerInteractionService _interaction;
         private readonly IClientStore _clientStore;
         private readonly IAuthenticationSchemeProvider _schemeProvider;
         private readonly IEventService _events;
 
+        User user;
+
         public AccountController(
             IIdentityServerInteractionService interaction,
             IClientStore clientStore,
             IAuthenticationSchemeProvider schemeProvider,
-            IEventService events,
-            TestUserStore users = null)
+            IEventService events)
         {
             // if the TestUserStore is not in DI, then we'll just use the global users collection
             // this is where you would plug in your own custom identity management library (e.g. ASP.NET Identity)
-            _users = users ?? new TestUserStore(TestUsers.Users);
+            user = new User
+            {
+                SubjectId = "818727",
+                Username = "alice",
+                Password = "alice",
+                Claims =
+                {
+                    new Claim(JwtClaimTypes.Name, "Alice Smith"),
+                    new Claim(JwtClaimTypes.GivenName, "Alice"),
+                    new Claim(JwtClaimTypes.FamilyName, "Smith"),
+                    new Claim(JwtClaimTypes.Email, "AliceSmith@email.com"),
+                    new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
+                    new Claim(JwtClaimTypes.WebSite, "http://alice.com"),
+                    new Claim(JwtClaimTypes.Profile, "This is my profile! 666"),
+                    new Claim(JwtClaimTypes.Address, @"{ 'street_address': 'One Hacker Way', 'locality': 'Heidelberg', 'postal_code': 69118, 'country': 'Germany' }", IdentityServer4.IdentityServerConstants.ClaimValueTypes.Json),
+                    new Claim(JwtClaimTypes.Role,"admin")
+                }
+            };
 
             _interaction = interaction;
             _clientStore = clientStore;
@@ -109,9 +128,10 @@ namespace IdentityServer4.Quickstart.UI
             if (ModelState.IsValid)
             {
                 // validate username/password against in-memory store
-                if (_users.ValidateCredentials(model.Username, model.Password))
+                //if (_users.ValidateCredentials(model.Username, model.Password))
+                if (user.Username == model.Username && user.Password == model.Password)
                 {
-                    var user = _users.FindByUsername(model.Username);
+                    //var user = _users.FindByUsername(model.Username);
                     await _events.RaiseAsync(new UserLoginSuccessEvent(user.Username, user.SubjectId, user.Username, clientId: context?.ClientId));
 
                     // only set explicit expiration here if user chooses "remember me". 
@@ -158,7 +178,7 @@ namespace IdentityServer4.Quickstart.UI
                     }
                 }
 
-                await _events.RaiseAsync(new UserLoginFailureEvent(model.Username, "invalid credentials", clientId:context?.ClientId));
+                await _events.RaiseAsync(new UserLoginFailureEvent(model.Username, "invalid credentials", clientId: context?.ClientId));
                 ModelState.AddModelError(string.Empty, AccountOptions.InvalidCredentialsErrorMessage);
             }
 
@@ -167,7 +187,7 @@ namespace IdentityServer4.Quickstart.UI
             return View(vm);
         }
 
-        
+
         /// <summary>
         /// Show logout page
         /// </summary>
@@ -360,5 +380,40 @@ namespace IdentityServer4.Quickstart.UI
 
             return vm;
         }
+    }
+
+    //
+    // ժҪ:
+    //     In-memory user object for testing. Not intended for modeling users in production.
+    public class User
+    {
+        //
+        // ժҪ:
+        //     Gets or sets the subject identifier.
+        public string SubjectId { get; set; }
+        //
+        // ժҪ:
+        //     Gets or sets the username.
+        public string Username { get; set; }
+        //
+        // ժҪ:
+        //     Gets or sets the password.
+        public string Password { get; set; }
+        //
+        // ժҪ:
+        //     Gets or sets the provider name.
+        public string ProviderName { get; set; }
+        //
+        // ժҪ:
+        //     Gets or sets the provider subject identifier.
+        public string ProviderSubjectId { get; set; }
+        //
+        // ժҪ:
+        //     Gets or sets if the user is active.
+        public bool IsActive { get; set; }
+        //
+        // ժҪ:
+        //     Gets or sets the claims.
+        public ICollection<Claim> Claims { get; set; }
     }
 }
