@@ -40,20 +40,26 @@ namespace IdentityServer
                 options.Events.RaiseInformationEvents = true;
                 options.Events.RaiseFailureEvents = true;
                 options.Events.RaiseSuccessEvents = true;
+                options.Caching.ClientStoreExpiration = new TimeSpan(1, 1, 1);
+                options.Caching.ResourceStoreExpiration = new TimeSpan(1, 1, 1);
             });
 
             builder.AddTestUsers(TestUsers.Users);
 
             // in-memory, code config
-            builder.AddInMemoryIdentityResources(Config.GetIdentityResources());
-            builder.AddInMemoryApiResources(Config.GetApis());
-            builder.AddInMemoryClients(Config.GetClients());
+            //builder.AddInMemoryIdentityResources(Config.GetIdentityResources());
+            //builder.AddInMemoryApiResources(Config.GetApis());
+            //builder.AddInMemoryClients(Config.GetClients());
 
             // DB
-            //builder.AddClientStore<ClientStore>();
-            //builder.AddClientStoreCache<ClientStore>();
-            //builder.AddPersistedGrantStore<PersistedGrantStore>();
-            //builder.AddResourceStore<ResourceStore>();
+            builder.AddClientStore<ClientStore>();
+            builder.AddPersistedGrantStore<PersistedGrantStore>();
+            builder.AddResourceStore<ResourceStore>();
+
+            //Cache
+            //To use any of the caches described below, an implementation of ICache<T> must be registered in DI. This API registers a default in-memory implementation of ICache<T> that’s based on ASP.NET Core’s MemoryCache.
+            //builder.AddInMemoryCaching();
+            //builder.AddClientStoreCache<ClientStoreCache>();
             //builder.AddResourceStoreCache<ResourceStoreCache>();
 
             // in-memory, json config
@@ -96,3 +102,4 @@ namespace IdentityServer
         }
     }
 }
+ 

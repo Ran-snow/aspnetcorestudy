@@ -9,34 +9,43 @@ namespace IdentityServer.Store
 {
     public class PersistedGrantStore : IPersistedGrantStore
     {
-        public Task<IEnumerable<IdentityServer4.Models.PersistedGrant>> GetAllAsync(string subjectId)
+        public async Task<IEnumerable<PersistedGrant>> GetAllAsync(string subjectId)
         {
-            throw new NotImplementedException();
+            return await Task.Run(() => persistedGrants.Where(x => x.SubjectId == subjectId));
         }
 
-        public Task<IdentityServer4.Models.PersistedGrant> GetAsync(string key)
+        public async Task<PersistedGrant> GetAsync(string key)
         {
-            throw new NotImplementedException();
+            return await Task.Run(() => persistedGrants.Where(x => x.Key == key).FirstOrDefault());
         }
 
-        public Task RemoveAllAsync(string subjectId, string clientId)
+        public async Task RemoveAllAsync(string subjectId, string clientId)
         {
-            throw new NotImplementedException();
+            foreach (var item in await Task.Run(() => persistedGrants.Where(x => x.SubjectId == subjectId && x.ClientId == clientId)))
+            {
+                await Task.Run(() => persistedGrants.Remove(item));
+            }
         }
 
-        public Task RemoveAllAsync(string subjectId, string clientId, string type)
+        public async Task RemoveAllAsync(string subjectId, string clientId, string type)
         {
-            throw new NotImplementedException();
+            foreach (var item in await Task.Run(() => persistedGrants.Where(x => x.SubjectId == subjectId && x.ClientId == clientId && x.Type == type)))
+            {
+                await Task.Run(() => persistedGrants.Remove(item));
+            }
         }
 
-        public Task RemoveAsync(string key)
+        public async Task RemoveAsync(string key)
         {
-            throw new NotImplementedException();
+            var grant = await Task.Run(() => persistedGrants.Where(x => x.Key == key).FirstOrDefault());
+            if(grant!= null) await Task.Run(() => persistedGrants.Remove(grant));
         }
 
-        public Task StoreAsync(IdentityServer4.Models.PersistedGrant grant)
+        public async Task StoreAsync(PersistedGrant grant)
         {
-            throw new NotImplementedException();
+            await Task.Run(() => persistedGrants.Add(grant));
         }
+
+        private static List<PersistedGrant> persistedGrants = new List<PersistedGrant> ();
     }
 }

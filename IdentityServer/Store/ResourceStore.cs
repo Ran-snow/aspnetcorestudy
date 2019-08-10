@@ -9,24 +9,41 @@ namespace IdentityServer.Store
 {
     public class ResourceStore : IResourceStore
     {
-        public Task<ApiResource> FindApiResourceAsync(string name)
+        public async Task<ApiResource> FindApiResourceAsync(string name)
         {
-            throw new NotImplementedException();
+            return await Task.Run(() =>
+            {
+                return Config.GetApis().Where(x => name == x.Name).FirstOrDefault();
+            });
         }
 
-        public Task<IEnumerable<ApiResource>> FindApiResourcesByScopeAsync(IEnumerable<string> scopeNames)
+        public async Task<IEnumerable<ApiResource>> FindApiResourcesByScopeAsync(IEnumerable<string> scopeNames)
         {
-            throw new NotImplementedException();
+            return await Task.Run(() =>
+            {
+                return Config.GetApis().Where(x => scopeNames.Contains(x.Name));
+            });
         }
 
-        public Task<IEnumerable<IdentityResource>> FindIdentityResourcesByScopeAsync(IEnumerable<string> scopeNames)
+        public async Task<IEnumerable<IdentityResource>> FindIdentityResourcesByScopeAsync(IEnumerable<string> scopeNames)
         {
-            throw new NotImplementedException();
+            return await Task.Run(() =>
+            {
+                return Config.GetIdentityResources().Where(x => scopeNames.Contains(x.Name));
+            });
         }
 
-        public Task<Resources> GetAllResourcesAsync()
+        public async Task<Resources> GetAllResourcesAsync()
         {
-            throw new NotImplementedException();
+            return await Task.Run(() =>
+            {
+                return new Resources
+                {
+                    ApiResources = Config.GetApis().ToList(),
+                    IdentityResources = Config.GetIdentityResources().ToList(),
+                    OfflineAccess = true
+                };
+            });
         }
     }
 }
