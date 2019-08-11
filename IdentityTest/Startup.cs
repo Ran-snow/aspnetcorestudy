@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using IdentityTest.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using IdentityTest.Models;
 
 namespace IdentityTest
 {
@@ -36,11 +37,30 @@ namespace IdentityTest
             });
 
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                options.UseMySql(
+                    Configuration.GetConnectionString("IndividualIdentityDbContextConnection")));
+
             services.AddDefaultIdentity<IdentityUser>()
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddIdentityCore<SDUserModel>(conifg =>
+            {
+                conifg.Password.RequiredLength = 3;
+                conifg.Password.RequireUppercase = false;
+                conifg.Password.RequireNonAlphanumeric = false;
+                conifg.Password.RequireDigit = false;
+            })
+                .AddRoles<IdentityRole>()
+                .AddClaimsPrincipalFactory<UserClaimsPrincipalFactory<SDUserModel, IdentityRole>>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders()
+                .AddDefaultUI(UIFramework.Bootstrap4);
+
+            //services.AddAuthentication()
+            //    .AddCookie("Identity.Application")
+            //    .AddCookie("Identity.External")
+            //    .AddCookie("Identity.TwoFactorUserId");
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
