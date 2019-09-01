@@ -19,7 +19,7 @@ namespace IdentityServer
                 new IdentityResources.Profile(),
                 new IdentityResources.Email(),
                 new IdentityResources.Address(),
-                new IdentityResources.Phone(){ Required = true },
+                new IdentityResources.Phone(){ Required = true},
                 new IdentityResource("Roles","角色",new string []{JwtClaimTypes.Role })
             };
         }
