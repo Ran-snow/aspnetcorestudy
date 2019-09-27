@@ -27,6 +27,9 @@ namespace WebAPIHttp
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
+            //有cookie时 Access-Control-Allow-Origin 不能为 *
+            //https://segmentfault.com/a/1190000015552557
+            //https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Access_control_CORS
             services.AddCors(options =>
             {
                 options.AddPolicy("any", policyBuilder =>
