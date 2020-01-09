@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Internal;
 
 namespace MyMiddleware.Middleware
 {
@@ -21,24 +20,25 @@ namespace MyMiddleware.Middleware
 
         public async Task Invoke(HttpContext context)
         {
-            context.Request.EnableRewind();
+            //context.Request.EnableRewind();
 
-            var buffer = new byte[Convert.ToInt32(context.Request.ContentLength)];
-            await context.Request.Body.ReadAsync(buffer, 0, buffer.Length);
-            var requestBody = Encoding.UTF8.GetString(buffer);
-            context.Request.Body.Seek(0, SeekOrigin.Begin);
+            //var buffer = new byte[Convert.ToInt32(context.Request.ContentLength)];
+            //await context.Request.Body.ReadAsync(buffer, 0, buffer.Length);
+            //var requestBody = Encoding.UTF8.GetString(buffer);
+            //context.Request.Body.Seek(0, SeekOrigin.Begin);
 
-            var builder = new StringBuilder(Environment.NewLine);
-            builder.AppendLine($"Request Path:{context.Request.Path.Value}");
-            foreach (var header in context.Request.Headers)
-            {
-                builder.AppendLine($"{header.Key}:{header.Value}");
-            }
+            //var builder = new StringBuilder(Environment.NewLine);
+            //builder.AppendLine($"Request Path:{context.Request.Path.Value}");
+            //foreach (var header in context.Request.Headers)
+            //{
+            //    builder.AppendLine($"{header.Key}:{header.Value}");
+            //}
 
-            builder.AppendLine($"Request body:{requestBody}");
+            //builder.AppendLine($"Request body:{requestBody}");
 
-            //LogHelper.WriteInfo(this.GetType(), builder.ToString());
-            throw new Exception("此处加日志");
+            ////LogHelper.WriteInfo(this.GetType(), builder.ToString());
+            //Console.WriteLine(builder.ToString());
+            ////throw new Exception("此处加日志");
 
             await _next(context);
         }
