@@ -59,7 +59,7 @@ namespace MyMiddleware
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseMiddleware<RequestLoggingMiddleware>();
+            app.UseRequestLoggingMiddleware();
 
             app.UseRouting();
 
