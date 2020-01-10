@@ -77,6 +77,12 @@ namespace MyMiddleware.Middleware
             #endregion
         }
 
+        /// <summary>
+        /// 获取日志标题
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="header"></param>
+        /// <returns></returns>
         private static string GetLogHeader(HttpContext context, string header)
         {
             return context.TraceIdentifier + "-" + header + "->";
@@ -107,7 +113,7 @@ namespace MyMiddleware.Middleware
         {
             response.Body.Position = 0;
 
-            StreamReader responseReader = new StreamReader(response.Body);
+            StreamReader responseReader = new StreamReader(response.Body, GetEncoding(response.ContentType));
 
             var responseContent = await responseReader.ReadToEndAsync();
 
@@ -124,7 +130,7 @@ namespace MyMiddleware.Middleware
         /// <returns></returns>
         private static string GetString(ReadOnlySequence<byte> buffer, string contentType)
         {
-            Encoding encoding = GetRequestEncoding(contentType);
+            Encoding encoding = GetEncoding(contentType);
 
             if (buffer.IsSingleSegment)
             {
@@ -147,9 +153,9 @@ namespace MyMiddleware.Middleware
         /// </summary>
         /// <param name="contentType"></param>
         /// <returns></returns>
-        private static Encoding GetRequestEncoding(string contentType)
+        private static Encoding GetEncoding(string contentType)
         {
-            var requestMediaType = contentType == null ? default(MediaType) : new MediaType(contentType);
+            var requestMediaType = contentType == null ? default : new MediaType(contentType);
             var requestEncoding = requestMediaType.Encoding;
             if (requestEncoding == null)
             {
