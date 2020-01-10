@@ -46,11 +46,13 @@ namespace MyMiddleware.Middleware
             #region 获取请求报文
             var requestBodyContent = await ReadRequestBodyAsync(context.Request);
             _logger.LogInformation(GetLogHeader(context, "RequestTime") + requestTime);
-            _logger.LogInformation(GetLogHeader(context, "Method") + context.Request.Method);
-            _logger.LogInformation(GetLogHeader(context, "Path") + context.Request.Path);
-            _logger.LogInformation(GetLogHeader(context, "QueryString") + context.Request.QueryString);
-            _logger.LogInformation(GetLogHeader(context, "RequestHeaders") + context.Request.Headers.Aggregate((a, b) =>
-                new KeyValuePair<string, StringValues>(string.Empty, new StringValues(a.Key + ":" + a.Value + Environment.NewLine + b.Key + ":" + b.Value))).Value);
+            _logger.LogInformation(GetLogHeader(context, "RequestMethod") + context.Request.Method);
+            _logger.LogInformation(GetLogHeader(context, "RequestPath") + context.Request.Path);
+            _logger.LogInformation(GetLogHeader(context, "RequestQueryString") + context.Request.QueryString);
+            _logger.LogInformation(GetLogHeader(context, "RequestHeaders") + (context.Request.Headers.Count > 0 ?
+                context.Request.Headers.Aggregate((a, b) =>
+                    new KeyValuePair<string, StringValues>(string.Empty, new StringValues(a.Key + ":" + a.Value + Environment.NewLine + b.Key + ":" + b.Value)))
+                    : new KeyValuePair<string, StringValues>(string.Empty, string.Empty)).Value, _logger);
             _logger.LogInformation(GetLogHeader(context, "RequestBodyContent") + requestBodyContent);
             #endregion
 
@@ -70,8 +72,10 @@ namespace MyMiddleware.Middleware
             var responseBodyContent = await ReadResponseBodyAsync(context.Response);
             await responseBody.CopyToAsync(originalResponseBodyStream);
             stopWatch.Stop();
-            _logger.LogInformation(GetLogHeader(context, "ResponseHeaders") + context.Response.Headers.Aggregate((a, b) =>
-                new KeyValuePair<string, StringValues>(string.Empty, new StringValues(a.Key + ":" + a.Value + Environment.NewLine + b.Key + ":" + b.Value))).Value);
+            _logger.LogInformation(GetLogHeader(context, "ResponseHeaders") + (context.Response.Headers.Count > 0 ?
+                context.Response.Headers.Aggregate((a, b) =>
+                    new KeyValuePair<string, StringValues>(string.Empty, new StringValues(a.Key + ":" + a.Value + Environment.NewLine + b.Key + ":" + b.Value)))
+                    : new KeyValuePair<string, StringValues>(string.Empty, string.Empty)).Value, _logger);
             _logger.LogInformation(GetLogHeader(context, "ResponseBodyContent") + responseBodyContent);
             _logger.LogInformation(GetLogHeader(context, "ElapsedMilliseconds") + stopWatch.ElapsedMilliseconds);
             #endregion
