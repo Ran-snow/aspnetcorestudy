@@ -4,7 +4,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace CharpLearn
+namespace CSharpLearn
 {
     public class SemaphoreSlimLearn
     {
@@ -12,7 +12,7 @@ namespace CharpLearn
         // A padding interval to make the output more orderly.
         private static int padding;
 
-        public static void Main()
+        public static void Run()
         {
             // Create the semaphore.
             semaphore = new SemaphoreSlim(0, 3);

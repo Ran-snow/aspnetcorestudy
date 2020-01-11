@@ -45,7 +45,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MapClass", "Mapper\MapClass
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyMiddleware", "MyMiddleware\MyMiddleware.csproj", "{D8612E25-9A7F-48ED-9EF6-A6DAC7869ED2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CharpLearn", "CharpLearn\CharpLearn.csproj", "{3EB82C16-D1AE-4DC5-8FB6-DD55BD32E27C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSharpLearn", "CSharpLearn\CSharpLearn.csproj", "{3EB82C16-D1AE-4DC5-8FB6-DD55BD32E27C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
