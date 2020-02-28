@@ -22,6 +22,7 @@ namespace MyMiddleware.Middleware
     /// 参考文章：
     /// https://blog.csdn.net/qq_22949043/article/details/90717459
     /// https://zhuanlan.zhihu.com/p/39453491
+    /// https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/request-response?view=aspnetcore-3.1
     /// </remarks>
     public class LoggingMiddleware
     {
@@ -44,7 +45,10 @@ namespace MyMiddleware.Middleware
             var requestTime = DateTime.UtcNow;
 
             #region 获取请求报文
-            var requestBodyContent = await ReadRequestBodyAsync(context.Request);
+
+            PipeReader pipeReader = context.Request.BodyReader;
+            string requestBodyContent = GetString((await pipeReader.ReadAsync()).Buffer, context.Request.ContentType);
+
             _logger.LogInformation(GetLogHeader(context, "RequestTime") + requestTime);
             _logger.LogInformation(GetLogHeader(context, "RequestMethod") + context.Request.Method);
             _logger.LogInformation(GetLogHeader(context, "RequestPath") + context.Request.Path);
@@ -54,21 +58,25 @@ namespace MyMiddleware.Middleware
                     new KeyValuePair<string, StringValues>(string.Empty, new StringValues(a.Key + ":" + a.Value + Environment.NewLine + b.Key + ":" + b.Value)))
                     : new KeyValuePair<string, StringValues>(string.Empty, string.Empty)).Value, _logger);
             _logger.LogInformation(GetLogHeader(context, "RequestBodyContent") + requestBodyContent);
+
             #endregion
 
             #region 获取响应报文部分-1
+
             //由于相应报文流是不可读的，所以先备份上一个中间件的流，然后创建
             //一个可读写的流给下一个中间件，下一个中间件执行完毕后，读值，再把
             //上一个中间件的流弄回去
             var originalResponseBodyStream = context.Response.Body;
             await using var responseBody = new MemoryStream();
             context.Response.Body = responseBody;
+
             #endregion
 
             //执行其他中间件
             await _next(context);
 
             #region 获取响应报文部分-2
+
             var responseBodyContent = await ReadResponseBodyAsync(context.Response);
             await responseBody.CopyToAsync(originalResponseBodyStream);
             stopWatch.Stop();
@@ -78,7 +86,11 @@ namespace MyMiddleware.Middleware
                     : new KeyValuePair<string, StringValues>(string.Empty, string.Empty)).Value, _logger);
             _logger.LogInformation(GetLogHeader(context, "ResponseBodyContent") + responseBodyContent);
             _logger.LogInformation(GetLogHeader(context, "ElapsedMilliseconds") + stopWatch.ElapsedMilliseconds);
+
             #endregion
+
+            //TODO 警告：使用之后，请求Body将会被释放!
+            pipeReader.Complete();
         }
 
         /// <summary>
@@ -90,22 +102,6 @@ namespace MyMiddleware.Middleware
         private static string GetLogHeader(HttpContext context, string header)
         {
             return context.TraceIdentifier + "-" + header + "->";
-        }
-
-        /// <summary>
-        /// 获取请求报文文本
-        /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
-        private static async ValueTask<string> ReadRequestBodyAsync(HttpRequest request)
-        {
-            PipeReader pipeReader = request.BodyReader;
-
-            string res = GetString((await pipeReader.ReadAsync()).Buffer, request.ContentType);
-
-            pipeReader.Complete();
-
-            return res;
         }
 
         /// <summary>
