@@ -32,16 +32,19 @@ namespace WebAPIHttp
             //https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Access_control_CORS
             services.AddCors(options =>
             {
-                options.AddPolicy("any", policyBuilder =>
+                options.AddPolicy("AllowSameDomain", policyBuilder =>
                 {
                     policyBuilder.AllowAnyMethod()
-                        .AllowAnyHeader()
+                        .AllowAnyHeader();
                         //.WithMethods("GET", "HEAD", "POST", "PUT", "PATCH", "DELETE", "OPTIONS", "DEBUG");
-                        .AllowCredentials();//指定处理cookie
 
                     var cfg = Configuration.GetSection("AllowedHosts").Get<List<string>>();
-                    if (cfg == null || cfg.Contains("*")) policyBuilder.AllowAnyOrigin(); //允许任何来源的主机访问
-                    else policyBuilder.WithOrigins(cfg.ToArray()); //允许类似http://localhost:8080等主机访问
+                    if (cfg?.Any() ?? false)
+                        //允许任何来源的主机访问
+                        policyBuilder.AllowAnyOrigin(); 
+                    else if (cfg?.Any() ?? false)
+                        //允许类似http://localhost:8080等主机访问
+                        policyBuilder.AllowCredentials().WithOrigins(cfg.ToArray()); 
                 });
             });
 
@@ -60,7 +63,8 @@ namespace WebAPIHttp
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseCors("any");
+            //https://docs.microsoft.com/en-us/aspnet/core/security/cors?view=aspnetcore-3.0
+            app.UseCors("AllowSameDomain");
             app.UseAuthentication();
 
             app.UseMvc();
