@@ -47,6 +47,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyMiddleware", "MyMiddlewar
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSharpLearn", "CSharpLearn\CSharpLearn.csproj", "{3EB82C16-D1AE-4DC5-8FB6-DD55BD32E27C}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatRTest", "MediatRTest\MediatRTest.csproj", "{F48FED2E-E37A-48C0-A0F7-67A4E98ABF72}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -137,6 +139,10 @@ Global
 		{3EB82C16-D1AE-4DC5-8FB6-DD55BD32E27C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3EB82C16-D1AE-4DC5-8FB6-DD55BD32E27C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3EB82C16-D1AE-4DC5-8FB6-DD55BD32E27C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F48FED2E-E37A-48C0-A0F7-67A4E98ABF72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F48FED2E-E37A-48C0-A0F7-67A4E98ABF72}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F48FED2E-E37A-48C0-A0F7-67A4E98ABF72}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F48FED2E-E37A-48C0-A0F7-67A4E98ABF72}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
