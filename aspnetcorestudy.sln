@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28803.352
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MvcCookieAuthSample", "MvcCookieAuthSample\MvcCookieAuthSample.csproj", "{D1635226-577F-4173-A333-BAE47AD2EBCF}"
 EndProject
@@ -48,6 +48,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSharpLearn", "CSharpLearn\CSharpLearn.csproj", "{3EB82C16-D1AE-4DC5-8FB6-DD55BD32E27C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatRTest", "MediatRTest\MediatRTest.csproj", "{F48FED2E-E37A-48C0-A0F7-67A4E98ABF72}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SerilogTest", "SerilogTest\SerilogTest.csproj", "{1C545CE3-6F53-4A05-988C-157B65983662}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SerilogAspNetCoreTest", "SerilogAspNetCoreTest\SerilogAspNetCoreTest.csproj", "{11E2B4E8-A2A2-4006-92CB-1982C7F9FC34}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -143,6 +147,14 @@ Global
 		{F48FED2E-E37A-48C0-A0F7-67A4E98ABF72}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F48FED2E-E37A-48C0-A0F7-67A4E98ABF72}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F48FED2E-E37A-48C0-A0F7-67A4E98ABF72}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C545CE3-6F53-4A05-988C-157B65983662}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C545CE3-6F53-4A05-988C-157B65983662}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C545CE3-6F53-4A05-988C-157B65983662}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C545CE3-6F53-4A05-988C-157B65983662}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11E2B4E8-A2A2-4006-92CB-1982C7F9FC34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11E2B4E8-A2A2-4006-92CB-1982C7F9FC34}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11E2B4E8-A2A2-4006-92CB-1982C7F9FC34}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11E2B4E8-A2A2-4006-92CB-1982C7F9FC34}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
