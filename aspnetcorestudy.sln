@@ -53,6 +53,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SerilogTest", "SerilogTest\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SerilogAspNetCoreTest", "SerilogAspNetCoreTest\SerilogAspNetCoreTest.csproj", "{11E2B4E8-A2A2-4006-92CB-1982C7F9FC34}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YARPStudy", "YARPStudy\YARPStudy.csproj", "{05B7EAEE-C735-4E4F-A9E1-593A2E11C706}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPIClssic", "WebAPIClssic\WebAPIClssic.csproj", "{167117EB-4558-4607-8445-0FCE5F2E18FA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleAppClassic", "ConsoleAppClassic\ConsoleAppClassic.csproj", "{A543CA3F-386B-45AB-AEFC-AD4243F9BF4B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -155,6 +161,18 @@ Global
 		{11E2B4E8-A2A2-4006-92CB-1982C7F9FC34}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{11E2B4E8-A2A2-4006-92CB-1982C7F9FC34}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{11E2B4E8-A2A2-4006-92CB-1982C7F9FC34}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05B7EAEE-C735-4E4F-A9E1-593A2E11C706}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05B7EAEE-C735-4E4F-A9E1-593A2E11C706}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05B7EAEE-C735-4E4F-A9E1-593A2E11C706}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05B7EAEE-C735-4E4F-A9E1-593A2E11C706}.Release|Any CPU.Build.0 = Release|Any CPU
+		{167117EB-4558-4607-8445-0FCE5F2E18FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{167117EB-4558-4607-8445-0FCE5F2E18FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{167117EB-4558-4607-8445-0FCE5F2E18FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{167117EB-4558-4607-8445-0FCE5F2E18FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A543CA3F-386B-45AB-AEFC-AD4243F9BF4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A543CA3F-386B-45AB-AEFC-AD4243F9BF4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A543CA3F-386B-45AB-AEFC-AD4243F9BF4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A543CA3F-386B-45AB-AEFC-AD4243F9BF4B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
