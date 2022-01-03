@@ -53,11 +53,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SerilogTest", "SerilogTest\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SerilogAspNetCoreTest", "SerilogAspNetCoreTest\SerilogAspNetCoreTest.csproj", "{11E2B4E8-A2A2-4006-92CB-1982C7F9FC34}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YARPStudy", "YARPStudy\YARPStudy.csproj", "{05B7EAEE-C735-4E4F-A9E1-593A2E11C706}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YARPStudy", "YARPStudy\YARPStudy.csproj", "{05B7EAEE-C735-4E4F-A9E1-593A2E11C706}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPIClssic", "WebAPIClssic\WebAPIClssic.csproj", "{167117EB-4558-4607-8445-0FCE5F2E18FA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleAppClassic", "ConsoleAppClassic\ConsoleAppClassic.csproj", "{A543CA3F-386B-45AB-AEFC-AD4243F9BF4B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SourceGeneratorTest", "SourceGeneratorTest", "{968AD7EF-D511-408A-BA42-27E2A5650304}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SourceGeneratorClassLibrary", "SourceGeneratorClassLibrary\SourceGeneratorClassLibrary.csproj", "{40EA345D-2E9E-4C7C-8466-C39C545123E2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleAppSourceGenerator", "ConsoleAppSourceGenerator\ConsoleAppSourceGenerator.csproj", "{EDA3C6E4-757A-4A05-89E9-BFB5343B03B7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoMapperTest", "AutoMapperTest\AutoMapperTest.csproj", "{8A7375C8-DD4C-47FE-84F8-345730D8C10C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -173,6 +181,18 @@ Global
 		{A543CA3F-386B-45AB-AEFC-AD4243F9BF4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A543CA3F-386B-45AB-AEFC-AD4243F9BF4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A543CA3F-386B-45AB-AEFC-AD4243F9BF4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40EA345D-2E9E-4C7C-8466-C39C545123E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40EA345D-2E9E-4C7C-8466-C39C545123E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40EA345D-2E9E-4C7C-8466-C39C545123E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40EA345D-2E9E-4C7C-8466-C39C545123E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDA3C6E4-757A-4A05-89E9-BFB5343B03B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDA3C6E4-757A-4A05-89E9-BFB5343B03B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDA3C6E4-757A-4A05-89E9-BFB5343B03B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDA3C6E4-757A-4A05-89E9-BFB5343B03B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A7375C8-DD4C-47FE-84F8-345730D8C10C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A7375C8-DD4C-47FE-84F8-345730D8C10C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A7375C8-DD4C-47FE-84F8-345730D8C10C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A7375C8-DD4C-47FE-84F8-345730D8C10C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -183,6 +203,8 @@ Global
 		{FA64674A-B816-4180-B175-1C89ADD73DC7} = {67F160AE-51B4-467B-AE74-B5E9C3620168}
 		{B5EAA182-2395-4421-A27B-CCB1131D74D2} = {67F160AE-51B4-467B-AE74-B5E9C3620168}
 		{D11C5147-409C-4AB9-B7AE-53BD5C11EAE1} = {67F160AE-51B4-467B-AE74-B5E9C3620168}
+		{40EA345D-2E9E-4C7C-8466-C39C545123E2} = {968AD7EF-D511-408A-BA42-27E2A5650304}
+		{EDA3C6E4-757A-4A05-89E9-BFB5343B03B7} = {968AD7EF-D511-408A-BA42-27E2A5650304}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E7996C1C-8368-4568-8E37-98A73FF6CE98}
