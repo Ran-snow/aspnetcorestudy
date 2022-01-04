@@ -18,6 +18,7 @@ namespace SourceGeneratorClassLibrary
             {
                 return;
             }
+
             foreach (var mapperClassDec in syntaxReceiver.MappingPlans)
             {
                 var typedSymbolMapperClass = FindTypeSymbol(context.Compilation, mapperClassDec);
@@ -30,20 +31,18 @@ namespace SourceGeneratorClassLibrary
                 //IMapper<TestClass1, TestClass2> 
                 var typedSymbolOfIMapper = typedSymbolMapperClass.AllInterfaces.Single();
                 var genericTypesOfIMapper = typedSymbolOfIMapper.TypeArguments;
-                Debug.Assert(genericTypesOfIMapper.Count() == 2);
+                //Debug.Assert(genericTypesOfIMapper.Count() == 2);
 
                 ITypeSymbol typedSymbolSource = genericTypesOfIMapper.ElementAt(0);
                 ITypeSymbol typedSymbolDest = genericTypesOfIMapper.ElementAt(1);
 
                 var sb = new StringBuilder();
                 sb.AppendLine($"namespace {nsOfMapperClass};");
-                sb.Append($"partial class {clzNameOfMapperClass}")
-                    .AppendLine("{");
-
-                sb.Append($"public {typedSymbolDest} Map({typedSymbolSource} src)").AppendLine("{");
-
+                sb.Append($"partial class {clzNameOfMapperClass}");
+                sb.AppendLine("{");
+                sb.Append($"    public {typedSymbolDest} Map({typedSymbolSource} src)");
+                sb.AppendLine(" {");
                 sb.AppendLine(BuildMapMethodBody(typedSymbolSource, typedSymbolDest));
-
                 sb.AppendLine(" }");
                 sb.AppendLine("}");
                 context.AddSource($"{clzNameOfMapperClass}.generated.cs", SourceText.From(sb.ToString(), Encoding.UTF8));
@@ -60,7 +59,7 @@ namespace SourceGeneratorClassLibrary
             var sharedProps = srcProps.Where(p => sharedPropNames.Contains(p.Name));
 
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine($"{typedSymbolDest} dest = new();");
+            sb.AppendLine($"{typedSymbolDest} dest = new {typedSymbolDest}();");
             foreach (var prop in sharedProps)
             {
                 sb.AppendLine($"dest.{prop.Name}=src.{prop.Name};");
@@ -74,7 +73,7 @@ namespace SourceGeneratorClassLibrary
             //Debugger.Launch();
             foreach (var syntaxTree in compilation.SyntaxTrees)
             {
-                if (syntaxTree.GetRoot().DescendantNodes().Any(x=>x.IsKind(SyntaxKind.SimpleBaseType)))
+                if (syntaxTree.GetRoot().DescendantNodes().Any(x => x.IsKind(SyntaxKind.SimpleBaseType)))
                 {
                     var semanticModel = compilation.GetSemanticModel(syntaxTree);
                     if (semanticModel == null)
@@ -84,7 +83,7 @@ namespace SourceGeneratorClassLibrary
 
                     return semanticModel.GetDeclaredSymbol(node);
                 }
-                
+
             }
             return null;
         }
@@ -92,7 +91,6 @@ namespace SourceGeneratorClassLibrary
         public void Initialize(GeneratorInitializationContext context)
         {
 #if DEBUG
-               Debugger.Launch();
             //if (!Debugger.IsAttached)
             //{
             //    Debugger.Launch();
@@ -112,8 +110,7 @@ namespace SourceGeneratorClassLibrary
         public void OnVisitSyntaxNode(SyntaxNode syntaxNode)
         {
             //pick up all the paritial classes which implement IMapper.
-            var classDeclarationNode = syntaxNode as ClassDeclarationSyntax;
-            if (classDeclarationNode == null || classDeclarationNode.BaseList == null)
+            if (!(syntaxNode is ClassDeclarationSyntax classDeclarationNode) || classDeclarationNode.BaseList == null)
             {
                 return;
             }
