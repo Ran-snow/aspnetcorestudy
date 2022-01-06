@@ -1,0 +1,16 @@
+﻿<#@ template debug="true" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".txt" #>
+
+Hello, world!
+
+<# int top=10;
+
+for(int j=0;j<top;j++)
+{ #>
+	this is<#= j #> 
+ <#} #>
+
