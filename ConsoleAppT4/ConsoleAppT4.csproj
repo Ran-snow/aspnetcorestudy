@@ -8,27 +8,31 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Ext\TextTemplate1.txt">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>TextTemplate1.tt</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Ext\TextTemplate1.tt">
+    <None Update="Ext\MultipleOutputHelper.ttinclude">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>TextTemplate1.txt</LastGenOutput>
+      <LastGenOutput>MultipleOutputHelper.cs</LastGenOutput>
     </None>
-    <None Update="Ext\TextTemplate1.txt">
+    <None Update="Ext\TextTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>TextTemplate.txt</LastGenOutput>
+    </None>
+    <None Update="Ext\TextTemplate.txt">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>TextTemplate1.tt</DependentUpon>
+      <DependentUpon>TextTemplate.tt</DependentUpon>
     </None>
   </ItemGroup>
 
   <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Ext\MultipleOutputHelper.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MultipleOutputHelper.ttinclude</DependentUpon>
+    </Compile>
   </ItemGroup>
 
 </Project>

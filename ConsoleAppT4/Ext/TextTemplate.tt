@@ -1,23 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+﻿<#@ template debug="true" hostspecific="true" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Reflection" #>
+<#@ output extension=".txt" #>
 
-namespace ConsoleAppT4
-{
-    public static class Program
-    {
-        public static void Main(string[] args)
-        {
-            // Must .net fx !!!
-            string assemblyFile = @"\net48\ObjsClassLibrary.dll";
+<#@include file="MultipleOutputHelper.ttinclude"#>  
+<# var manager = Manager.Create(Host, GenerationEnvironment); #>
+
+<#
+	        string assemblyFile = @"C:\xxx\ObjsClassLibrary.dll";
             string interfaceName = "IMap";
 
             Assembly assembly = Assembly.LoadFrom(assemblyFile);
-            if (assembly == default) return;
+            if (assembly == null) return "";
             //Assembly assembly = Assembly.GetExecutingAssembly();
             //Console.WriteLine("AssemblyName");
             //Console.WriteLine(assembly.GetName().ToString());
@@ -45,7 +42,7 @@ namespace ConsoleAppT4
                     if (!props.Any()) continue;
 
                     //Console.WriteLine("=================");
-                    //manager.StartNewFile($"{destType.Name}.Generated.cs");
+                    manager.StartNewFile($"{destType.Name}.Generated.cs");
                     WriteLine($"using {destType.Namespace};");
                     WriteLine(string.Empty);
                     WriteLine($"namespace {sourceType.Namespace}");
@@ -65,28 +62,26 @@ namespace ConsoleAppT4
                     WriteLine("        }");
                     WriteLine("    }");
                     WriteLine("}");
-                    //manager.EndBlock();
-                    //manager.Process(true);
+                    manager.EndBlock(); 
+                    manager.Process(true);
 
                     //Console.WriteLine(string.Empty);
                 }
             }
-        }
+#>
 
-        private static void WriteLine(string text) => Console.WriteLine(text);
+<#+
+	private static string GetAttr(TypeAttributes typeAttributes) => typeAttributes == TypeAttributes.Public ? "public" : "internal";
 
-        private static string GetAttr(TypeAttributes typeAttributes) => typeAttributes == TypeAttributes.Public ? "public" : "internal";
-
-        private static Type? GetDestType_InterfaceStrategy(Type sourceType, string interfaceName)
+    private static Type? GetDestType_InterfaceStrategy(Type sourceType, string interfaceName)
         {
             return sourceType.GetInterface(interfaceName + "`1");
         }
 
-        internal class CompareMember : IEqualityComparer<MemberInfo>
-        {
-            public bool Equals(MemberInfo? x, MemberInfo? y) => x?.Name == y?.Name && x?.GetType() == y?.GetType();
+    internal class CompareMember : IEqualityComparer<MemberInfo>
+    {
+        public bool Equals(MemberInfo? x, MemberInfo? y) => x?.Name == y?.Name && x?.GetType() == y?.GetType();
 
-            public int GetHashCode([DisallowNull] MemberInfo obj) => obj.Name.GetHashCode();
-        }
+        public int GetHashCode(MemberInfo obj) => obj.Name.GetHashCode();
     }
-}
+#>
