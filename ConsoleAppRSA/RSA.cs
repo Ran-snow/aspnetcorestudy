@@ -21,6 +21,9 @@ namespace ConsoleAppRSA
     /// <summary>
     /// RSA
     /// </summary>
+    /// <remarks>
+    /// https://www.cnblogs.com/dj258/p/6049786.html
+    /// </remarks>
     public class RSA
     {
         private readonly Encoding EncodingText;
@@ -233,14 +236,15 @@ namespace ConsoleAppRSA
         /// </summary>
         /// <param name="privateKey">私钥（Base64编码后的）</param>
         /// <param name="data">原文</param>
+        /// <param name="algorithm">摘要算法</param>
         /// <returns></returns>
-        public string GenerateSignature(string privateKey, string data)
+        public string GenerateSignature(string privateKey, string data, string algorithm = "SHA1WithRSA")
         {
             try
             {
                 byte[] msgBytes = EncodingText.GetBytes(data);
 
-                ISigner signer = SignerUtilities.GetSigner("SHA1WithRSA");
+                ISigner signer = SignerUtilities.GetSigner(algorithm);
                 signer.Init(true, GetPrivateKeyParameter(privateKey));
                 signer.BlockUpdate(msgBytes, 0, msgBytes.Length);
                 return Convert.ToBase64String(signer.GenerateSignature());
@@ -272,7 +276,7 @@ namespace ConsoleAppRSA
         /// </summary>
         /// <param name="text"></param>
         /// <returns></returns>
-        private byte[] GetContent(string text)
+        private static byte[] GetContent(string text)
         {
             StringReader stringReader = new StringReader(text);
             PemReader pemReader = new PemReader(stringReader);

@@ -25,9 +25,9 @@ namespace ConsoleAppRSA
             //openssl pkcs8 -topk8 -in rsa_private.key -passout pass:111111 -out pkcs8_private.key
 
             //用公钥加密文件
-            //openssl rsautl -encrypt -in plain.txt -inkey rsa_public.key -pubin -out encryptByPublicKeyText.txt
+            //openssl pkeyutl -encrypt -in plain.txt -inkey rsa_public.key -pubin -out encryptByPublicKeyRSAText.txt
             //用私钥解密公钥加密的文件
-            //openssl rsautl -decrypt -in encryptByPublicKeyText.txt -inkey rsa_aes_private.key -out plain.txt
+            //openssl pkeyutl -decrypt -in encryptByPublicKeyRSAText.txt -inkey rsa_aes_private.key -out plain.txt
 
             //创建摘要
             //openssl dgst -sha1 -sign rsa_aes_private.key -out digest.sha1 plain.txt
@@ -47,13 +47,13 @@ namespace ConsoleAppRSA
             string sign = rsa.GenerateSignature(privateKey, plain);
             bool result = rsa.VerifySignature(publicKey, sign, plain);
 
-            //string encryptByPrivateKeyText = rsa.EncryptByPrivateKey(plain, privateKey);
-            //File.WriteAllBytes(baseDir + "encryptByPrivateKeyText.txt", Convert.FromBase64String(encryptByPrivateKeyText));
-            //string text1 = rsa.DecryptByPublicKey(encryptByPrivateKeyText, publicKey);
+            //string encryptByPrivateKeyRSAText = rsa.EncryptByPrivateKey(plain, privateKey);
+            //File.WriteAllBytes(baseDir + "encryptByPrivateKeyRSAText.txt", Convert.FromBase64String(encryptByPrivateKeyRSAText));
+            //string text1 = rsa.DecryptByPublicKey(encryptByPrivateKeyRSAText, publicKey);
 
-            string encryptByPublicKeyText = rsa.EncryptByPublicKey(plain, publicKey);
-            File.WriteAllBytes(baseDir + "encryptByPublicKeyText.txt", Convert.FromBase64String(encryptByPublicKeyText));
-            string text2 = rsa.DecryptByPrivateKey(encryptByPublicKeyText, privateKey);
+            string encryptByPublicKeyRSAText = rsa.EncryptByPublicKey(plain, publicKey);
+            File.WriteAllBytes(baseDir + "encryptByPublicKeyRSAText.txt", Convert.FromBase64String(encryptByPublicKeyRSAText));
+            string text2 = rsa.DecryptByPrivateKey(encryptByPublicKeyRSAText, privateKey);
         }
     }
 }
