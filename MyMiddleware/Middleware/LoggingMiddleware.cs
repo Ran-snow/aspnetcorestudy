@@ -47,7 +47,7 @@ namespace MyMiddleware.Middleware
             #region 获取请求报文
 
             PipeReader pipeReader = context.Request.BodyReader;
-            string requestBodyContent = GetString((await pipeReader.ReadAsync()).Buffer, context.Request.ContentType);
+            string requestBodyContent = await BodyToStringAsync(context.Request.BodyReader, context.Request.ContentType);
 
             _logger.LogInformation(GetLogHeader(context, "RequestTime") + requestTime);
             _logger.LogInformation(GetLogHeader(context, "RequestMethod") + context.Request.Method);
@@ -120,6 +120,32 @@ namespace MyMiddleware.Middleware
             response.Body.Position = 0;
 
             return responseContent;
+        }
+
+        private static async Task<string> BodyToStringAsync(PipeReader reader, string contentType)
+        {
+            //通过AdvanceTo(,) 使readResult结果越来越多
+            ReadResult readResult;
+            while (true)
+            {
+                readResult = await reader.ReadAsync();
+
+                //告诉PipeReader "readResult.Buffer.Start"之前的消费过了,到readResult.Buffer.End之前的检查过了,不要销毁数据
+                //如果没有readResult.Buffer.End PipeReader会销毁数据
+                reader.AdvanceTo(readResult.Buffer.Start, readResult.Buffer.End);
+
+                if (readResult.IsCompleted)
+                {
+                    break;
+                }
+            }
+
+            return GetString(readResult.Buffer, contentType);
+
+            //var readResult = await reader.ReadAsync();
+            //string res = GetString(readResult.Buffer, contentType);
+            ////reader.AdvanceTo(readResult.Buffer.Start, readResult.Buffer.End);
+            //return res;
         }
 
         /// <summary>
